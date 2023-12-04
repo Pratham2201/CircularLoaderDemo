@@ -13,6 +13,7 @@
 		5E6CEB892B1D911200CB0D15 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E6CEB872B1D911200CB0D15 /* Main.storyboard */; };
 		5E6CEB8B2B1D911400CB0D15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5E6CEB8A2B1D911400CB0D15 /* Assets.xcassets */; };
 		5E6CEB8E2B1D911400CB0D15 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5E6CEB8C2B1D911400CB0D15 /* LaunchScreen.storyboard */; };
+		5E6CEB972B1D915700CB0D15 /* CircularLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E6CEB962B1D915700CB0D15 /* CircularLoaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		5E6CEB8A2B1D911400CB0D15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5E6CEB8D2B1D911400CB0D15 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5E6CEB8F2B1D911500CB0D15 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5E6CEB962B1D915700CB0D15 /* CircularLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularLoaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 		5E6CEB802B1D911200CB0D15 /* CircularLoaderDemo */ = {
 			isa = PBXGroup;
 			children = (
+				5E6CEB952B1D911D00CB0D15 /* CircularLoaderView */,
 				5E6CEB812B1D911200CB0D15 /* AppDelegate.swift */,
 				5E6CEB832B1D911200CB0D15 /* SceneDelegate.swift */,
 				5E6CEB852B1D911200CB0D15 /* ViewController.swift */,
@@ -65,6 +68,14 @@
 				5E6CEB8F2B1D911500CB0D15 /* Info.plist */,
 			);
 			path = CircularLoaderDemo;
+			sourceTree = "<group>";
+		};
+		5E6CEB952B1D911D00CB0D15 /* CircularLoaderView */ = {
+			isa = PBXGroup;
+			children = (
+				5E6CEB962B1D915700CB0D15 /* CircularLoaderView.swift */,
+			);
+			path = CircularLoaderView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,6 +151,7 @@
 			files = (
 				5E6CEB862B1D911200CB0D15 /* ViewController.swift in Sources */,
 				5E6CEB822B1D911200CB0D15 /* AppDelegate.swift in Sources */,
+				5E6CEB972B1D915700CB0D15 /* CircularLoaderView.swift in Sources */,
 				5E6CEB842B1D911200CB0D15 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
