@@ -27,13 +27,9 @@ class CircularLoaderView: UIView {
     var objectSize: CGFloat?
     
     // Angle in degrees between two objects in the circluar bar from the centre of the circle
-    var arcRadian: CGFloat?
+    var angleRadian: CGFloat?
     
     var delegate: CircularLoaderViewDelegate?
-    
-    var percentageLayers: [CAShapeLayer] = []
-    
-    var completedPercentageIndex = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -44,18 +40,17 @@ class CircularLoaderView: UIView {
         self.radius = radius
         self.numberOfObjects = numberOfObjects
         self.objectSize = objectSize
-        arcRadian = (2*CGFloat.pi)/CGFloat(numberOfObjects)
+        angleRadian = (2*CGFloat.pi)/CGFloat(numberOfObjects)
         self.delegate = delegate
         
         self.backgroundColor = .clear
         
         drawCircularProgressView()
-        animateInfiniteCircularProgressView()
     }
     
     private func drawCircularProgressView() {
         for i in 0..<(numberOfObjects ?? 0) {
-            if let radius = radius, let angle = arcRadian {
+            if let radius = radius, let angle = angleRadian {
                 let drawPoint = CGPoint(x: (circularProgressBarCentre?.x ?? 0) + radius*cos(angle*CGFloat(i)),
                                         y: (circularProgressBarCentre?.y ?? 0) + radius*sin(angle*CGFloat(i)))
                 delegate?.drawObject(circluarView: self, index: i, drawPoint: drawPoint)
@@ -63,24 +58,23 @@ class CircularLoaderView: UIView {
         }
     }
     
-    func animateInfiniteCircularProgressView(counter: Int = 0) {
-        UIView.animate(withDuration: 0.0, delay: 0.034, animations: {[weak self] in
-            self?.transform = CGAffineTransform(rotationAngle: (self?.arcRadian ?? 0)*CGFloat(counter))
+    func animateInfiniteCircularProgressView(counter: Int = 0, duration: TimeInterval, delay: TimeInterval) {
+        UIView.animate(withDuration: duration, delay: delay, animations: {[weak self] in
+            self?.transform = CGAffineTransform(rotationAngle: (self?.angleRadian ?? 0)*CGFloat(counter))
         }, completion: { [weak self] (_) in
-            if counter < (self?.numberOfObjects ?? 0)-1 {
-                self?.animateInfiniteCircularProgressView(counter: counter+1)
-            }
-            else {
-                self?.animateInfiniteCircularProgressView(counter: 0)
-            }
+            self?.animateInfiniteCircularProgressView(counter: (counter+1)%(self?.numberOfObjects ?? 1), duration: duration, delay: delay)
         })
     }
 }
 
+// Some shapes function
 extension CircularLoaderView {
     
-    func drawCircle(index: Int, point: CGPoint) {
-        let multiplier = CGFloat(index)/(CGFloat(numberOfObjects ?? 1)-1)
+    func drawCircle(index: Int, point: CGPoint, increasingSize: Bool = true) {
+        var multiplier: CGFloat = 1
+        if increasingSize {
+            multiplier = CGFloat(index)/(CGFloat(numberOfObjects ?? 1)-1)
+        }
         
         let shapeLayer = CAShapeLayer()
         shapeLayer.frame = self.bounds
@@ -93,22 +87,24 @@ extension CircularLoaderView {
         shapeLayer.path = circle.cgPath
     }
     
-    func drawArc(index: Int, point: CGPoint) {
-        let multiplier = CGFloat(index)/(CGFloat(numberOfObjects ?? 1)-1)
+    func drawArc(index: Int, point: CGPoint, increasingSize: Bool = true, gap: CGFloat = 0.02) {
+        var multiplier: CGFloat = 1
+        if increasingSize {
+            multiplier = CGFloat(index)/(CGFloat(numberOfObjects ?? 1)-1)
+        }
         
         let shapeLayer = CAShapeLayer()
         shapeLayer.frame = self.bounds
-        shapeLayer.lineWidth = 5.0
+        shapeLayer.lineWidth = multiplier*(objectSize ?? 0)
         shapeLayer.fillColor = UIColor.clear.cgColor
         shapeLayer.strokeColor = CGColor(red: 1, green: 0, blue: 0, alpha: multiplier*1)
         self.layer.addSublayer(shapeLayer)
         
-        let circle = UIBezierPath(arcCenter: circularProgressBarCentre ?? CGPoint(), radius: radius ?? 0, startAngle: CGFloat(index)*(arcRadian ?? 0)+0.02, endAngle: CGFloat(index + 1)*(arcRadian ?? 0)-0.02, clockwise: true)
+        let circle = UIBezierPath(arcCenter: circularProgressBarCentre ?? CGPoint(), radius: radius ?? 0, startAngle: CGFloat(index)*(angleRadian ?? 0)+gap, endAngle: CGFloat(index + 1)*(angleRadian ?? 0)-gap, clockwise: true)
         
         shapeLayer.path = circle.cgPath
     }
     
-    // delay = 0, duration = 0.5, objects = 30+
     func drawContinuousCircle(index: Int, point: CGPoint) {
         let multiplier = CGFloat(index)/(CGFloat(numberOfObjects ?? 1)-1)
         
@@ -119,7 +115,7 @@ extension CircularLoaderView {
         shapeLayer.strokeColor = CGColor(red: 1, green: 0, blue: 0, alpha: multiplier*1)
         self.layer.addSublayer(shapeLayer)
         
-        let circle = UIBezierPath(arcCenter: circularProgressBarCentre ?? CGPoint(), radius: radius ?? 0, startAngle: CGFloat(index)*(arcRadian ?? 0), endAngle: CGFloat(index + 1)*(arcRadian ?? 0), clockwise: true)
+        let circle = UIBezierPath(arcCenter: circularProgressBarCentre ?? CGPoint(), radius: radius ?? 0, startAngle: CGFloat(index)*(angleRadian ?? 0), endAngle: CGFloat(index + 1)*(angleRadian ?? 0), clockwise: true)
         
         shapeLayer.path = circle.cgPath
     }

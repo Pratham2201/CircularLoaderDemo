@@ -13,13 +13,14 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        circluarLoaderView.configure(delegate: self, radius: 100, numberOfObjects: 12, objectSize: 50)
+        circluarLoaderView.configure(delegate: self, radius: 100, numberOfObjects: 20, objectSize: 50)
+        circluarLoaderView.animateInfiniteCircularProgressView(duration: 0.0, delay: 0.017)
     }
 }
 
 extension ViewController: CircularLoaderViewDelegate {
     func drawObject(circluarView: CircularLoaderView, index: Int, drawPoint: CGPoint) {
-        circluarView.drawCircle(index: index, point: drawPoint)
+        circluarView.drawArc(index: index, point: drawPoint, increasingSize: true)
     }
 }
 
